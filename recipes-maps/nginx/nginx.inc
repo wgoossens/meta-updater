@@ -98,15 +98,6 @@ do_install () {
     install -d ${D}${sysconfdir}/default/volatiles
     install -m 0644 ${WORKDIR}/nginx-volatile.conf ${D}${sysconfdir}/default/volatiles/99_nginx
     sed -i 's,/var/,${localstatedir}/,g' ${D}${sysconfdir}/default/volatiles/99_nginx
-
-    #    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-    #        install -d ${D}${systemd_unitdir}/system
-    #        install -m 0644 ${WORKDIR}/nginx.service ${D}${systemd_unitdir}/system/
-    #        sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-    #            -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-    #            -e 's,@SBINDIR@,${sbindir},g' \
-    #            ${D}${systemd_unitdir}/system/nginx.service
-    #    fi
 }
 
 pkg_postinst_${PN} () {

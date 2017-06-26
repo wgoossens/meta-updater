@@ -25,7 +25,7 @@ do
   if [ "$current" != "$last_modified" ]
   then
     echo "restarting tileserver"
-    sleep 5
+    sleep 10
 
     # fetch new tiles if neccessary
     wget $artifact -O $dir/map.mbtiles
