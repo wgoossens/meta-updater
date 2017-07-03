@@ -12,6 +12,7 @@ SRC_URI = " \
   file://aktualizr-manual-provision.service \
   file://aktualizr-autoprovision.service \
   file://sota_autoprov.toml \
+  file://secondary.json \
   "
 SRCREV = "1004efa3f86cef90c012b34620992b5762b741e3"
 PV = "1.0+git${SRCPV}"
@@ -32,6 +33,9 @@ do_install_append() {
       install -m 0644 ${WORKDIR}/aktualizr-autoprovision.service ${D}/${systemd_unitdir}/system/aktualizr.service
       install -d ${D}/usr/lib/sota
       install -m "0644" ${WORKDIR}/sota_autoprov.toml ${D}/usr/lib/sota/sota.toml
+      export ECU_SERIAL=$(uuidgen)
+      cat ${WORKDIR}/secondary.json | envsubst > ${D}/usr/lib/sota/secondary.json
+      chmod 0644 ${D}/usr/lib/sota/secondary.json
     else
       install -d ${D}/${systemd_unitdir}/system
       install -m 0644 ${WORKDIR}/aktualizr-manual-provision.service ${D}/${systemd_unitdir}/system/aktualizr.service
@@ -42,4 +46,5 @@ FILES_${PN} = " \
                 ${bindir}/aktualizr \
                 ${systemd_unitdir}/system/aktualizr.service \
                 /usr/lib/sota/sota.toml \
+                /usr/lib/sota/secondary.json \
                 "

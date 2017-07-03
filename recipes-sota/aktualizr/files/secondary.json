@@ -1,0 +1,7 @@
+{
+    "ecu_serial": "${ECU_SERIAL}",
+    "ecu_hardware_id": "map partition",
+    "ecu_private_key": "/tmp/secondary_priv.key",
+    "ecu_public_key": "/tmp/secondary_pub.key",
+    "firmware_path": "/var/maps/map.mbtiles"
+}
