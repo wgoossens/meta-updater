@@ -5,17 +5,17 @@
 
 # Build a map-enabled Yocto image
 - checkout branch `map-poc` in meta-updater in the Yocto source tree
-- create a file `secondary_ecu` with:
+- create a file `secondary_hardware` with:
 
 ```
-echo "$(uuidgen) map-partition" > /tmp/secondary_ecu
+echo "map-partition" > /tmp/secondary_hardware
 ```
 
 - modify the build config (`local.conf` or `site.conf`):
 
 ```
-SOTA_CLIENT = "sota-client sota-launcher sota-installer"
-SOTA_SECONDARY_ECUS = "/tmp/secondary_ecu"
+SOTA_CLIENT = "rvi-sota-client sota-launcher sota-installer"
+SOTA_SECONDARY_HARDWARE = "/tmp/secondary_hardware"
 
 IMAGE_INSTALL_append = " gettext "
 IMAGE_INSTALL_append = " nginx "

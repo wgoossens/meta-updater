@@ -2,7 +2,7 @@
 
 inherit image
 
-IMAGE_DEPENDS_ostree = "ostree-native:do_populate_sysroot \ 
+IMAGE_DEPENDS_ostree = "ostree-native:do_populate_sysroot \
 			openssl-native:do_populate_sysroot \
 			zip-native:do_populate_sysroot \
 			virtual/kernel:do_deploy \
@@ -48,13 +48,13 @@ IMAGE_CMD_ostree () {
 	dirs="bin sbin lib"
 
 	for dir in ${dirs} ; do
-		if [ -d ${dir} ] && [ ! -L ${dir} ] ; then 
+		if [ -d ${dir} ] && [ ! -L ${dir} ] ; then
 			mv ${dir} usr/rootdirs/
 			rm -rf ${dir}
 			ln -sf usr/rootdirs/${dir} ${dir}
 		fi
 	done
-	
+
 	if [ -n "$SYSTEMD_USED" ]; then
 		mkdir -p usr/etc/tmpfiles.d
 		tmpfiles_conf=usr/etc/tmpfiles.d/00ostree-tmpfiles.conf
@@ -142,6 +142,10 @@ IMAGE_CMD_ostree () {
 		cp ${SOTA_SECONDARY_ECUS} var/sota/ecus
 	fi
 
+	if [ -n "${SOTA_SECONDARY_HARDWARE}" ]; then
+		cp ${SOTA_SECONDARY_HARDWARE} var/sota/secondary_hardware
+	fi
+
 	# Creating boot directories is required for "ostree admin deploy"
 
 	mkdir -p boot/loader.0
@@ -159,13 +163,13 @@ IMAGE_CMD_ostree () {
 	cd ${WORKDIR}
 
 	# Create a tarball that can be then commited to OSTree repo
-	OSTREE_TAR=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ostree.tar.bz2 
+	OSTREE_TAR=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ostree.tar.bz2
 	tar -C ${OSTREE_ROOTFS} --xattrs --xattrs-include='*' -cjf ${OSTREE_TAR} .
 	sync
 
 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.rootfs.ostree.tar.bz2
 	ln -s ${IMAGE_NAME}.rootfs.ostree.tar.bz2 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.rootfs.ostree.tar.bz2
-	
+
 	if [ ! -d ${OSTREE_REPO} ]; then
 		ostree --repo=${OSTREE_REPO} init --mode=archive-z2
 	fi

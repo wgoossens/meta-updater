@@ -27,6 +27,7 @@ file://sota-client-autoprovision.service \
 file://sota-client-ostree.service \
 file://sota-client-uptane.service \
 file://sota-installer.service \
+file://map-installer.sh \
 crate://crates.io/advapi32-sys/0.2.0 \
 crate://crates.io/aho-corasick/0.6.3 \
 crate://crates.io/ansi_term/0.9.0 \
