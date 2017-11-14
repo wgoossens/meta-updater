@@ -2,7 +2,7 @@
 
 inherit image
 
-IMAGE_DEPENDS_ostree = "ostree-native:do_populate_sysroot \
+do_image_ostree[depends] += "ostree-native:do_populate_sysroot \
                         openssl-native:do_populate_sysroot \
                         coreutils-native:do_populate_sysroot \
                         virtual/kernel:do_deploy \
@@ -159,7 +159,7 @@ IMAGE_CMD_ostree () {
 }
 
 IMAGE_TYPEDEP_ostreepush = "ostree"
-IMAGE_DEPENDS_ostreepush = "aktualizr-native:do_populate_sysroot"
+do_image_ostreepush[depends] += "aktualizr-native:do_populate_sysroot"
 IMAGE_CMD_ostreepush () {
     # Print warnings if credetials are not set or if the file has not been found.
     if [ -n "${SOTA_PACKED_CREDENTIALS}" ]; then
